@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>EHTP Docs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+	body {
+		padding-top: 70px;
+	}
+</style>
+
+<body>
+
+<div id = "app">
+
+<div class="row" id = "menubar"></div>
+
+<div class="row" id = "docs-header"></div>
+
+<div class="container-fuild border">
+    <!-- Affiche tous les documents qui existent -->
+
+    <div class="row">
+        <template v-for="doc in docs">
+            <div class="col">
+                <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
+            </div>
+        </template>
+    </div>
+</div>
+
+<div id = "foot"></div>
+
+</div>
+
+
+<script>
+    Vue.component('document-component', {
+        props: ['docType', 'docName'],
+        template: 
+        '<table class="table table-bordered table-dark">\
+                  <tbody>\
+                    <tr>\
+                      <td>{{ docType }}</td>\
+                    </tr>\
+                    <tr>\
+                      <td>{{ docName }}</td>\
+                    </tr>\
+                  </tbody>\
+                </table>\
+        '
+      })
+      
+    var vm = new Vue({
+        el: '#app',
+  
+        data: {
+              categories: [
+                  { id:1, name: "Examens", color: "green"},
+                  { id:2, name: "Rapports de stage", color: "green"},
+                  { id:3, name: "Présentations", color: "green"},
+                  { id:4, name: "", color: "green"},
+                  { id:5, name: "", color: "green"},
+                  { id:6, name: "Informatique", color: "blue"},
+                  { id:7, name: "C++", color: "blue"}
+              ],
+  
+              docs: [
+                  { image: "PNG", name: "Document de test", author: "GHR00" },
+                  { image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
+                  { image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
+              ],
+        }
+    });
+</script>
+
+<script src="importer.js"></script>
+
+
+</body>

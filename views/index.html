@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>EHTP Docs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+	body {
+		padding-top: 70px;
+	}
+</style>
+
+<body>
+
+<div id = "app">
+
+<div id = "menubar"></div>
+
+<div class="container-fuild border">
+  <!-- <div class="container py-2"> -->
+	
+	<!-- Ces deux rows doivent prendre toute la page d'acceuil à son affichage.. -->
+
+	<div class="row">
+	            
+	   	<div class="col">
+	   		<center>
+	            <h1 class="font-weight-light">EHTP Docs</h1>
+	            <p>
+	               	La plateforme libre d'échange de documents pour les étudiants de l'EHTP
+	            </p>
+	       	</center>
+		</div>   
+	</div>
+
+	<div class="row">
+		<div class="col-5">
+		</div>
+		<div class="col-6">
+			<search-bar size='large' text='Rechercher'></search-bar>
+		</div>
+	</div>
+</div>
+
+	<!---->
+
+<div class="container-fuild border">
+	
+	<!-- Les categories les plus actives-->
+	<div class="row">
+		<div class="col">
+			<h2 class="font-weight-light">Les categories les plus actives</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<template v-for="category in categories">
+				<category-component v-bind:category-name="category.name"></category-component>
+			
+		</template>
+	</div>
+
+	<br>
+	<br>
+
+	<!-- Les derniers documents -->
+	<div class="row">
+		<div class="col">
+			<h2 class="font-weight-light">Derniers documents importés</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<template v-for="doc in docs">
+			<div class="col">
+				<document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
+			</div>
+		</template>
+	</div>
+
+	<!-- Les derniers résumés-->
+	<div class="row">
+		<div class="col">
+			<h2 class="font-weight-light">Derniers résumés redigés</h2>
+	   </div>
+	</div>
+
+	<div class="row">
+		<template v-for="sum in summaries">
+			<div class="col">
+				<summary-component v-bind:sum-image="sum.image" v-bind:sum-name="sum.name" v-bind:sum-author="sum.author"></summary-component>
+			</div>
+		</template>
+	</div>
+
+	<!-- Les derniéres questions posées-->
+	<div class="row">
+		<div class="col">
+			<h2 class="font-weight-light">Derniéres questions posées</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<template v-for="qst in questions">
+			<div class="col">
+				<question-component v-bind:qst-content="qst.content" v-bind:qst-responses="qst.responses" v-bind:qst-seen="qst.seen" v-bind:qst-author="qst.author"></question-component>
+			</div>
+		</template>
+	</div>
+
+</div>
+
+
+<div id="foot"></div>
+</div>
+
+
+<script src="components.js"></script>
+
+<script>
+
+	var vm = new Vue({
+        data: {
+        	categories: [
+                  { id:1, name: "Examens", color: "green"},
+                  { id:2, name: "Rapports de stage", color: "green"},
+                  { id:3, name: "Présentations", color: "green"},
+                  { id:4, name: "", color: "green"},
+                  { id:5, name: "", color: "green"},
+                  { id:6, name: "Informatique", color: "blue"},
+                  { id:7, name: "C++", color: "blue"}
+        	],
+  
+        	docs: [
+                  { image: "PNG", name: "Document de test", author: "GHR00" },
+                  { image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
+                  { image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
+        	],
+  
+        	summaries: [
+                  { image: "IMAGE", name: "Résumé du marché public", author: "Randoma Allouch"},
+                  
+        	],
+  
+        	questions: [
+                  { content: "Comment créer une classe avec l'IDE Code::Blocks?", responses: 3, seen: 11, categories: [6, 7], author: "Azerty123"},
+                  
+        	]
+		},
+
+	}).$mount('#app')
+	
+	
+</script>
+
+<script src="importer.js"></script>
+
+</body>
+</html>
+
