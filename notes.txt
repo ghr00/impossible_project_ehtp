@@ -1,0 +1,8 @@
+- Transformer tous les composants en fichier .vue [OK]
+
+- Installer le routage coté client. 
+
+- Lier chaque item du menu à sa page.
+
+- Régler les problémes d'affichage.
+
