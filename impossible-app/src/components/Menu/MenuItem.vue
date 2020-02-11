@@ -1,6 +1,7 @@
 <template>
     <li class="nav-item">
-        <a class="nav-link" v-bind:href=href>{{ text }}</a>
+        <!-- <a class="nav-link" v-bind:href=href>{{ text }}</a> -->
+        <router-link class="nav-link" active-class="active" v-bind:to=href>{{ text }}</router-link>
     </li>    
 </template>
 
