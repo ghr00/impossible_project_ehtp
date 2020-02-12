@@ -1,14 +1,25 @@
-<template>
-    <table class="table table-bordered table-dark">
-        <tbody>
-            <tr class="d-flex">
-                <td class="col-4">{{ docType }}</td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-4">{{ docName }}</td>
-            </tr>
-        </tbody>
-    </table>     
+<template>  
+    <!-- Card -->
+    <div class="card">
+
+    <!-- Card image -->
+    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" alt="Card image cap">
+
+    <!-- Card content -->
+    <div class="card-body">
+
+        <!-- Title -->
+        <h4 class="card-title"><a>{{ docName }}</a></h4>
+        <!-- Text -->
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+        content.</p>
+        <!-- Button -->
+        <a href="#" class="btn btn-primary">Button</a>
+
+    </div>
+
+    </div>
+    <!-- Card -->
 </template>
 
 <script>

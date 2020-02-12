@@ -1,77 +1,87 @@
 <template>
   <div class="home">
-      <div class="container border maxContainer">
-        <div class="row"> <!-- Ces deux rows doivent prendre toute la page dacceuil à son affichage..  -->
-               <div class="col">
-                  <center>
-                      <h1 class="font-weight-light">EHTP Docs</h1>
-                      <p>
-                           La plateforme libre d'échange de documents pour les étudiants de l'EHTP
-                      </p>
-                  </center>
-        </div>   
-      </div>
+    <!-- Ces deux rows doivent prendre toute la page dacceuil à son affichage..  -->
+      <!-- <div class="container border maxContainer">
         
-          <div class="row">
-            <div class="col-5">
-            </div>
-            <div class="col-6">
-              <search-bar size='large' text='Rechercher'></search-bar>
-            </div>
-          </div>
+        </div> -->
+
+    <div class="container my-5 py-5 z-depth-1 blue-gradient">
+
+
+        <h3 class="font-weight-bold pt-5 pb-2">EHTP Docs</h3>
+        <img src="../assets/logo.png">
+      <!--Section: Content-->
+      <section class="white-text text-center">
+        
+        <h5 classe="font-weight-bold pt-5 pb-2">La plateforme libre d'échange de documents pour les étudiants de l'EHTP</h5>
+
+              
+        <div class="row d-flex justify-content-center">
+            <search-bar size='large' text='Rechercher'></search-bar>
         </div>
 
-      <div class="container border maxContainer2">
+      </section>
+    </div>
+
+    <!-- <div class="container my-5 py-5 z-depth-1"> -->
+      <section class="dark-grey-text text-center">
+         <!-- Les categories les plus actives-->
         
-      <!-- Les categories les plus actives-->
-        <div class="row">
-            <div class="col">
-              <h2 class="font-weight-light">Les categories les plus actives</h2>
-            </div>
-        </div>
-        
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <template v-for="category in categories">
                 <category-component v-bind:key="category.id" v-bind:category-name="category.name"></category-component>
             </template>
         </div>
-        
-        <br>
-        <br>
-        
+      </section>
+      <!--Section: Content-->
+    <!-- </div> -->
+
+    <div class="container my-5 py-5 z-depth-1 blue-gradient">
+      <section class="white-text text-center">     
           <!-- Les derniers documents -->
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <div class="col">
               <h2 class="font-weight-light">Derniers documents importés</h2>
             </div>
         </div>
-        
+      </section>
+    </div>
+      <div class="container my-5 py-5 z-depth-1">
         <div class="row">
               <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
                 <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
               </div>
         </div>
-        
+   </div>
+
+   <div class="container my-5 py-5 z-depth-1 blue-gradient">
           <!-- Les derniers résumés-->
-        <div class="row">
-            <div class="col">
-              <h2 class="font-weight-light">Derniers résumés redigés</h2>
-            </div>
-        </div>
-        
+        <section class="white-text text-center">    
+          <div class="row">
+              <div class="col">
+                <h2 class="font-weight-light">Derniers résumés redigés</h2>
+              </div>
+          </div>
+        </section>
+   </div>
+
+    <div class="container my-5 py-5 z-depth-1">
         <div class="row">
             <div class="col" v-for="(sum, index) in summaries" v-bind:key="index">
-              <summary-component v-bind:sum-image="sum.image" v-bind:sum-name="sum.name" v-bind:sum-author="sum.author"></summary-component>
+              <summary-component v-bind:sum-image="sum.image" v-bind:sum-name="sum.name" v-bind:sum-desc="sum.desc" v-bind:sum-author="sum.author"></summary-component>
             </div>
         </div>
-         
+    </div>
+
+    <div class="container my-5 py-5 z-depth-1">
          <!-- Les derniéres questions posées-->
         <div class="row">
             <div class="col">
               <h2 class="font-weight-light">Derniéres questions posées</h2>
             </div>
         </div>
-        
+    </div>
+    <div class="container my-5 py-5 z-depth-1"> 
         <div class="row">
               <div class="col" v-for="(qst, index) in questions" v-bind:key="index">
                 <question-component v-bind:qst-content="qst.content" v-bind:qst-responses="qst.responses" v-bind:qst-seen="qst.seen" v-bind:qst-author="qst.author"></question-component>
@@ -119,8 +129,9 @@ docs: [
 ],
   
 summaries: [
-{ image: "IMAGE", name: "Résumé du marché public", author: "Randoma Allouch"},
-                  
+{ image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
+{ image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
+                   
 ],
   
 questions: [

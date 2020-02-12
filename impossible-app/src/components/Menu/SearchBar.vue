@@ -1,7 +1,7 @@
 <template>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" v-bind:placeholder="text" v-bind:aria-label="text">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ text }}</button>
+        <button class="btn btn-dark my-2 my-sm-0" type="submit">{{ text }}</button>
     </form>
 </template>
 
