@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    
-    <div class="container border">
-          <div class="row"> <!-- Ces deux rows doivent prendre toute la page dacceuil à son affichage..  -->
+      <div class="container border maxContainer">
+        <div class="row"> <!-- Ces deux rows doivent prendre toute la page dacceuil à son affichage..  -->
                <div class="col">
                   <center>
                       <h1 class="font-weight-light">EHTP Docs</h1>
@@ -10,8 +9,8 @@
                            La plateforme libre d'échange de documents pour les étudiants de l'EHTP
                       </p>
                   </center>
-              </div>   
-          </div>
+        </div>   
+      </div>
         
           <div class="row">
             <div class="col-5">
@@ -20,10 +19,11 @@
               <search-bar size='large' text='Rechercher'></search-bar>
             </div>
           </div>
-    </div> 
+        </div>
 
-    <div class="container border">
-        <!-- Les categories les plus actives-->
+      <div class="container border maxContainer2">
+        
+      <!-- Les categories les plus actives-->
         <div class="row">
             <div class="col">
               <h2 class="font-weight-light">Les categories les plus actives</h2>
@@ -64,7 +64,8 @@
               <summary-component v-bind:sum-image="sum.image" v-bind:sum-name="sum.name" v-bind:sum-author="sum.author"></summary-component>
             </div>
         </div>
-          <!-- Les derniéres questions posées-->
+         
+         <!-- Les derniéres questions posées-->
         <div class="row">
             <div class="col">
               <h2 class="font-weight-light">Derniéres questions posées</h2>
@@ -76,9 +77,14 @@
                 <question-component v-bind:qst-content="qst.content" v-bind:qst-responses="qst.responses" v-bind:qst-seen="qst.seen" v-bind:qst-author="qst.author"></question-component>
               </div>
         </div>
+
       </div>
-      
-  </div>
+    </div> 
+    <!-- <button @click="moveNext">next</button> -->
+
+    
+
+    
 </template>
 
 <script>

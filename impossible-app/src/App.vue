@@ -14,10 +14,28 @@ import MainMenu from '@/components/Menu/MainMenu.vue'
 import Footer from '@/components/Menu/Footer.vue'
 
 export default {
-  name: 'Home',
+  name: 'App',
   components: {
     MainMenu,
     Footer,
+  },
+  data() {
+    return {
+      opts: {
+        start: 0,
+        dir: 'v',
+        duration: 500,
+        beforeChange: function (currentSlideEl,currenIndex,nextIndex) {
+        },
+        afterChange: function (currentSlideEl,currenIndex) {
+        }
+      }
+    }
+  },
+  method:{
+    moveNext(){
+      this.$refs.example.$fullpage.moveNext(); //Move to the next page
+    }
   }
 }
 
@@ -26,6 +44,27 @@ export default {
 <style>
 body {
   padding-top: 100px
+}
+
+.maxContainer {
+  padding-top: 200px;
+  padding-bottom:200px; 
+  max-width:1170px;
+  max-height:1170px;
+}
+
+.maxContainer2 {
+  padding-top: 100px;
+  padding-bottom:100px;
+}
+
+
+.fullpage-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 
 #app {
