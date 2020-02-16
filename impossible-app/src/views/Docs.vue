@@ -39,6 +39,8 @@
 import CategoryComponent from '@/components/Category.vue'
 import DocumentComponent from '@/components/Document.vue'
 
+import API from '@/services/Api'
+
 export default {
     name: 'Docs',
     components: {
@@ -55,6 +57,13 @@ export default {
                 { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
                 { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
             ]
+        }
+    },
+
+    methods : {
+        fetchDocs()
+        {
+            API().get('docs');
         }
     }
 }

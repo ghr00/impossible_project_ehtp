@@ -13,6 +13,10 @@
 import MainMenu from '@/components/Menu/MainMenu.vue'
 import Footer from '@/components/Menu/Footer.vue'
 
+import { EventBus } from '@/services/event-bus.js';
+
+var Documents = [];
+
 export default {
   name: 'App',
   components: {
@@ -21,20 +25,11 @@ export default {
   },
   data() {
     return {
-      opts: {
-        start: 0,
-        dir: 'v',
-        duration: 500,
-        beforeChange: function (currentSlideEl,currenIndex,nextIndex) {
-        },
-        afterChange: function (currentSlideEl,currenIndex) {
-        }
-      }
+      
     }
   },
   method:{
     moveNext(){
-      this.$refs.example.$fullpage.moveNext(); //Move to the next page
     }
   }
 }

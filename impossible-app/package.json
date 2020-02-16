@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "fullpage-vue": "^1.9.0",
     "mdbvue": "6.4.0",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
     "vue-fullpage": "^2.0.5",
     "vue-fullpage.js": "^0.1.5",
-    "vue-router": "^3.1.5"
+    "vue-router": "^3.1.5",
+    "vue-socket.io-extended": "^4.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

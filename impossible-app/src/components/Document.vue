@@ -14,7 +14,7 @@
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
         content.</p>
         <!-- Button -->
-        <a href="#" class="btn btn-primary">Button</a>
+        <a href="#" @click="getDocumentsFromServer" class="btn btn-primary">Button</a>
 
     </div>
 
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+
+import { EventBus } from '../services/event-bus.js';
+
 export default {
     name: "DocumentComponent",
 
@@ -42,14 +45,35 @@ export default {
 
     data() {
         return {
-            news: [{"name" : "News 1","header" : "News 1 header","body" : "News 1 news info"}, {"name" : "News 2","header" : "News 2 header","body" : "News 2 news info"}, {"name" : "News 3","header" : "News 3 header","body" : "News 3 news info"}],
+            docs: []
+        }
+    },
+
+    sockets: {
+        connect() {
+            console.log('socket connected')
+        },
+        customEmit(val) {
+            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        },
+        receiveDocumentsFromServer(documents) {
+            console.log("Recepetion:", JSON.stringify(documents));
+            
+            /* var tmp = this.docs.concat(documents);
+
+            this.docs = tmp; */
+            EventBus.$emit('receiveDocumentsFromServer', documents);
         }
     },
 
     methods: {
-        readNews(newsNum){
-            this.$emit('read', newsNum);
+        getDocumentsFromServer(){
+
+            // this.$socket.client is `socket.io-client` instance
+            this.$socket.client.emit('updateDocuments', "test");
+            
         }
     }
+
 }
 </script>

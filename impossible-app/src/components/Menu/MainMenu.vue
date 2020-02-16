@@ -4,7 +4,7 @@
   <a class="navbar-brand" href="/">EHTP Docs</a>
   <!-- Links -->
   <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-    <menu-item text="Documents" href="/docs"></menu-item>
+    <menu-item text="Documents" href="/docs" @itemAdded="updateDocs"></menu-item>
     <menu-item text="Résumés" href="/summaries"></menu-item>
     <menu-item text="Questions" href="/questions"></menu-item>
     <menu-item text="Encyclopédie" href="#"></menu-item>

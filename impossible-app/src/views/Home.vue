@@ -7,14 +7,12 @@
 
     <div class="container my-5 py-5 z-depth-1 blue-gradient">
 
-
         <h3 class="font-weight-bold pt-5 pb-2">EHTP Docs</h3>
         <img src="../assets/logo.png">
       <!--Section: Content-->
       <section class="white-text text-center">
         
         <h5 classe="font-weight-bold pt-5 pb-2">La plateforme libre d'échange de documents pour les étudiants de l'EHTP</h5>
-
               
         <div class="row d-flex justify-content-center">
             <search-bar size='large' text='Rechercher'></search-bar>
@@ -46,7 +44,7 @@
         </div>
       </section>
     </div>
-      <div class="container my-5 py-5 z-depth-1">
+    <div class="container my-5 py-5 z-depth-1">
         <div class="row">
               <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
                 <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
@@ -99,6 +97,7 @@
 
 <script>
 // @ is an alias to /src
+import Vue from 'vue'
 import CategoryComponent from '@/components/Category.vue'
 import DocumentComponent from '@/components/Document.vue'
 import SummaryComponent from '@/components/Summary.vue'
@@ -106,6 +105,19 @@ import QuestionComponent from '@/components/Question.vue'
 import SearchBar from '@/components/Menu/SearchBar.vue'
 import MainMenu from '@/components/Menu/MainMenu.vue'
 import Footer from '@/components/Menu/Footer.vue'
+
+import { EventBus } from '../services/event-bus.js';
+
+var Documents = [ { id:0, image: "PNG", name: "Document de test", author: "GHR00" }, ]; 
+
+EventBus.$on('receiveDocumentsFromServer', documents => {
+  console.log(`La liste des documents reçu est : ${JSON.stringify(documents)}`);
+  var tmp = Documents.concat(documents);
+
+  Documents = tmp;
+
+  console.log(`La nouvelle liste des documents est : ${JSON.stringify(Documents)}`);
+}); 
 
 export default {
   name: 'Home',
@@ -120,24 +132,31 @@ export default {
   }, 
   data() {
 return {
-categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}, {id:5,name: "Annonces", color: "green"}, {id:6, name: "Informatique", color: "blue"}, {id:7, name: "C++", color: "blue"}],
+  categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}, {id:5,name: "Annonces", color: "green"}, {id:6, name: "Informatique", color: "blue"}, {id:7, name: "C++", color: "blue"}],
 
-docs: [
-{ id:0, image: "PNG", name: "Document de test", author: "GHR00" },
-{ id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
-{ id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
-],
+  /* docs: [
+    { id:0, image: "PNG", name: "Document de test", author: "GHR00" },
+    { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
+    { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
+  ], */
   
-summaries: [
-{ image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
-{ image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
-                   
-],
-  
-questions: [
-{ content: "Comment créer une classe avec l'IDE Code::Blocks?", responses: 3, seen: 11, categories: [6, 7], author: "Azerty123"},
-]
+  docs: Documents,
+
+  summaries: [
+    { image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
+    { image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},
+                      
+  ],
+    
+  questions: [
+    { content: "Comment créer une classe avec l'IDE Code::Blocks?", responses: 3, seen: 11, categories: [6, 7], author: "Azerty123"},
+    ]
+    }
+  },
+  method:{
+  }
+    
 }
-}
-}
+
+    
 </script>
