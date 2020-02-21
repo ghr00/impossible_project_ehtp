@@ -40,6 +40,7 @@ import CategoryComponent from '@/components/Category.vue'
 import DocumentComponent from '@/components/Document.vue'
 
 import API from '@/services/Api'
+import { EventBus } from '../services/event-bus.js';
 
 export default {
     name: 'Docs',
@@ -60,11 +61,62 @@ export default {
         }
     },
 
-    methods : {
-        fetchDocs()
-        {
-            API().get('docs');
+    sockets: {
+        connect() {
+            console.log('socket connected')
+        },
+        customEmit(val) {
+            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        },
+        receiveDocumentsFromServer(documents) {
+            console.log("Recepetion:", JSON.stringify(documents));
+            
+            /* var tmp = this.docs.concat(documents);
+
+            this.docs = tmp; */
+            //EventBus.$emit('receiveDocumentsFromServer', documents);
+
+            this.setDocuments(documents);
         }
+    },
+
+    mounted(){
+        this.update()
+    },
+
+    methods: {
+        setDocuments(documents) {
+            this.docs = documents;
+
+            console.log("this.docs : ", JSON.stringify(this.docs));
+
+            this.$nextTick();
+        },
+
+        getDocumentsFromServer(){
+
+            // this.$socket.client is `socket.io-client` instance
+            this.$socket.client.emit('updateDocuments', "test");
+            
+        },
+        
+        update(){
+            //this.getDocumentsFromServer();
+            this.$socket.client.emit('updateDocuments', "test");
+
+            /* var tmp;
+
+            EventBus.$on('receiveDocumentsFromServer', documents => {
+                console.log(`La liste des documents reçu est : ${JSON.stringify(documents)}`);
+                
+                tmp = docs.concat(documents);   
+
+                console.log(`La nouvelle liste des documents est : ${JSON.stringify(docs)}`);
+            }); 
+
+            docs = tmp; */
+        },
+
     }
 }
 

@@ -46,7 +46,7 @@
     </div>
     <div class="container my-5 py-5 z-depth-1">
         <div class="row">
-              <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
+              <div class="col" v-for="(doc, index) in documents" v-bind:key="index">
                 <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
               </div>
         </div>
@@ -106,19 +106,6 @@ import SearchBar from '@/components/Menu/SearchBar.vue'
 import MainMenu from '@/components/Menu/MainMenu.vue'
 import Footer from '@/components/Menu/Footer.vue'
 
-import { EventBus } from '../services/event-bus.js';
-
-var Documents = [ { id:0, image: "PNG", name: "Document de test", author: "GHR00" }, ]; 
-
-EventBus.$on('receiveDocumentsFromServer', documents => {
-  console.log(`La liste des documents reçu est : ${JSON.stringify(documents)}`);
-  var tmp = Documents.concat(documents);
-
-  Documents = tmp;
-
-  console.log(`La nouvelle liste des documents est : ${JSON.stringify(Documents)}`);
-}); 
-
 export default {
   name: 'Home',
   components: {
@@ -134,13 +121,11 @@ export default {
 return {
   categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}, {id:5,name: "Annonces", color: "green"}, {id:6, name: "Informatique", color: "blue"}, {id:7, name: "C++", color: "blue"}],
 
-  /* docs: [
+  documents: [
     { id:0, image: "PNG", name: "Document de test", author: "GHR00" },
     { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
     { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
-  ], */
-  
-  docs: Documents,
+  ], 
 
   summaries: [
     { image: "IMAGE", name: "Résumé du marché public", desc:"Ce cours comporte les deux premieres parties du cours de Madame ?? que j'ai resumé de maniére explicative !", author: "Randoma Allouch"},

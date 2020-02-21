@@ -15,7 +15,8 @@ var hostname = '127.0.0.1';
 var docs = [
   { id:0, image: "HTTP", name: "Axios test", author: "AXIOS API" },
   { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
-  { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
+  { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" },
+  { id:3, image: "PNG", name: "Affiche de SafeRoad Hackathon", author: "Yahemdi Amine" }
 ]
 
 app.use(logger('dev'));
@@ -30,6 +31,9 @@ io.on('connection', function (socket) {
   socket.on('updateDocuments', function (msg, from) {
     console.log('I received a private message by ', from, ' saying ', msg);
 
+    // On charge les documents de la base de donnée !
+
+    // On les envoie au client
     socket.emit('receiveDocumentsFromServer', docs);
 
     console.log("I sended documents to client");
