@@ -25,7 +25,7 @@
             
         <div class="container border">
             <!-- Affiche tous les documents qui existent -->
-            <div class="row">
+            <div class="row"> 
                 <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
                     <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
                 </div>
