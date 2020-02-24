@@ -14,7 +14,8 @@
                     <div class="alert alert-success" role="alert"> Vous avez recherché tous les documents existants.</div>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-outline-success my-2 my-sm-0 float-left" type="button">Importer</button>
+                    <input @change="uploadDocument" id="fileUpload" type="file" hidden > <!-- multiple> -->
+                    <button @click="importDocument" class="btn btn-outline-success my-2 my-sm-0 float-left" type="button">Importer</button>
                 </div>
             </div>
 
@@ -25,7 +26,7 @@
             
         <div class="container border">
             <!-- Affiche tous les documents qui existent -->
-            <div class="row"> 
+            <div class="row" v-for="rowid in docs.length/3" v-bind:key="rowid"> 
                 <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
                     <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
                 </div>
@@ -85,6 +86,15 @@ export default {
     },
 
     methods: {
+
+        uploadDocument(event) {
+            console.log(event.target.files[0]);
+        },
+
+        importDocument() {
+            document.getElementById("fileUpload").click()
+        },
+
         setDocuments(documents) {
             this.docs = documents;
 
