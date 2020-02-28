@@ -26,7 +26,7 @@
             
         <div class="container border">
             <!-- Affiche tous les documents qui existent -->
-            <div class="row" v-for="rowid in docs.length/3" v-bind:key="rowid"> 
+            <div class="row" v-for="rowid in docs.length" v-bind:key="rowid"> 
                 <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
                     <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
                 </div>
@@ -42,6 +42,7 @@ import DocumentComponent from '@/components/Document.vue'
 
 import API from '@/services/Api'
 import { EventBus } from '../services/event-bus.js';
+import axios from 'axios'
 
 export default {
     name: 'Docs',
@@ -89,6 +90,27 @@ export default {
 
         uploadDocument(event) {
             console.log(event.target.files[0]);
+
+            //this.file = event.target.files[0];
+            //this.file = this.$refs.file.files[0];
+
+            let formData = new FormData();
+
+            formData.append('file', event.target.files[0]);
+
+            axios.post( 'http://localhost:5000/single-file',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                ).then(function(){
+                console.log('SUCCESS!!');
+                })
+                .catch(function(){
+                console.log('FAILURE!!');
+            });
         },
 
         importDocument() {
@@ -101,13 +123,6 @@ export default {
             console.log("this.docs : ", JSON.stringify(this.docs));
 
             this.$nextTick();
-        },
-
-        getDocumentsFromServer(){
-
-            // this.$socket.client is `socket.io-client` instance
-            this.$socket.client.emit('updateDocuments', "test");
-            
         },
         
         update(){
