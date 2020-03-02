@@ -24,10 +24,10 @@ var cors = require('cors')
 app.use(cors())
 
 var docs = [
-  { id:0, image: "HTTP", name: "Axios test", author: "AXIOS API" },
-  { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
-  { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" },
-  { id:3, image: "PNG", name: "Affiche de SafeRoad Hackathon", author: "Yahemdi Amine" }
+  { id:0, image: "HTTP", name: "Axios test", desc: "Description", author: "AXIOS API", file: ""},
+  { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", desc: "Description", author: "Random Alaoui", file: ""},
+  { id:2, image: "PDF", name: "Cours de resistance de materiaux", desc: "Description", author: "Hamid Lambda", file: ""},
+  { id:3, image: "PNG", name: "Affiche de SafeRoad Hackathon", desc: "Description", author: "Yahemdi Amine", file: ""},
 ]
 
 const bodyParser = require('body-parser')
@@ -42,35 +42,87 @@ app.use(bodyParser.json())
 
 var Busboy = require('busboy');
 
-// Parse and save all incoming files to disk:
-app.post('/single-file', (req, res) => {
+var element = { id:-1, image: '', name: '', desc: '', author: '' };
+
+const FILES = "public/files/";
+
+/* app.post('/download-file', (req, res) => {
 
   var busboy = new Busboy({ headers: req.headers });
 
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      console.log('File [' + fieldname + ']: filename: ' + filename);
-      file.on('data', function(data) {
-        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-      });
-      file.on('end', function() {
-        console.log('File [' + fieldname + '] Finished');
-      });
+  busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
+    console.log('Field [' + fieldname + ']: value: ' + inspect(val));
 
-      var saveTo = path.join(os.tmpdir(), "ehtpdocs/" + filename); /* path.basename("ehtpdocs/" + filename)); */
-      file.pipe(fs.createWriteStream(saveTo));
+    if(fieldname.localeCompare("filename") == 0)
+    {
+      const filePath = FILES.concat(String(val));
+
+      console.log('filepath : ',  path.join(__dirname,  filePath) );
+
+      res.download(path.join(__dirname,  filePath), (err)=>{console.log(err)} );
+    }  
+  });
+  busboy.on('finish', function() {
+    console.log('Fin de la requete download-file!');
+  });
+  req.pipe(busboy);
+}); */
+
+// define a route to download a file 
+app.get('/download/:file(*)',(req, res) => {
+  var file = req.params.file;
+  var filePath = FILES.concat(file);
+  var fileLocation = path.join(__dirname, filePath);//path.join('./public/files/',file);
+  console.log(fileLocation);
+  res.download(fileLocation, file); 
+});
+
+// Parse and save all incoming files to disk:
+app.post('/single-file', (req, res) => {
+  var busboy = new Busboy({ headers: req.headers });
+
+  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+    console.log('File [' + fieldname + ']: filename: ' + filename);
+    file.on('data', function(data) {
+      console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+    });
+    file.on('end', function() {
+      console.log('File [' + fieldname + '] Finished');
+    });
+
+    var saveTo = path.join(FILES, filename); /* path.basename("ehtpdocs/" + filename)); */
+    file.pipe(fs.createWriteStream(saveTo));
+
+    element.file = filename;
   });
 
   busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
     console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+
+    element.id = 100;
+
+    if(fieldname.localeCompare("name") == 0)  
+      element.name = inspect(val);
+
+    else if(fieldname.localeCompare("desc") == 0)  
+      element.desc = inspect(val);
+    
   });
   busboy.on('finish', function() {
-      console.log('Done parsing form!');
+    console.log('Done parsing form!');
       /* res.writeHead(303, { Connection: 'close', Location: '/' });
       res.end(); */
-    });
+
+      if(element.id != -1)
+        docs.push(element);
+      
+      console.log(docs);
+
+      element = { id:-1, image: "", name: "", desc: "", author: "" };
+  });
   req.pipe(busboy);
   
-}) 
+});
 
 app.use(logger('dev'));
 

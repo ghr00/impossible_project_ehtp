@@ -9,7 +9,7 @@
     <menu-item text="Questions" href="/questions"></menu-item>
     <menu-item text="Encyclopédie" href="#"></menu-item>
     <menu-item text="Ecole" href="#"></menu-item>
-
+    
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Connexion
@@ -22,7 +22,7 @@
         </form>
       </div>
     </li>
-
+    
     <menu-item text="Inscription" href="#"></menu-item>
     <menu-item text="A propos" href="/about"></menu-item>
   </ul> 

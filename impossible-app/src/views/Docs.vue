@@ -14,7 +14,7 @@
                     <div class="alert alert-success" role="alert"> Vous avez recherché tous les documents existants.</div>
                 </div>
                 <div class="col-2">
-                    <input @change="uploadDocument" id="fileUpload" type="file" hidden > <!-- multiple> -->
+                    <!-- <input @change="uploadDocument" id="fileUpload" type="file" hidden > --> <!-- multiple> -->
                     <button @click="importDocument" class="btn btn-outline-success my-2 my-sm-0 float-left" type="button">Importer</button>
                 </div>
             </div>
@@ -28,10 +28,12 @@
             <!-- Affiche tous les documents qui existent -->
             <div class="row" v-for="rowid in docs.length" v-bind:key="rowid"> 
                 <div class="col" v-for="(doc, index) in docs" v-bind:key="index">
-                    <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name"></document-component>
+                    <document-component v-bind:doc-type="doc.image" v-bind:doc-name="doc.name" v-bind:doc-desc="doc.desc" v-bind:doc-file="doc.file"></document-component>
                 </div>
             </div>
         </div>
+
+        <document-importer v-show="importMode"></document-importer>
     </div> 
 </template>
 
@@ -39,26 +41,30 @@
 // @ is an alias to /src
 import CategoryComponent from '@/components/Category.vue'
 import DocumentComponent from '@/components/Document.vue'
+import DocumentImporter from "@/components/importers/DocumentImporter.vue"
 
 import API from '@/services/Api'
-import { EventBus } from '../services/event-bus.js';
+import { EventBus } from '@/services/event-bus.js';
 import axios from 'axios'
 
 export default {
     name: 'Docs',
     components: {
         CategoryComponent,
-        DocumentComponent
+        DocumentComponent,
+        DocumentImporter,
     },
 
     data() {
         return {
+            importMode: false,
+
             categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}, {id:5,name: "Annonces", color: "green"}, {id:6, name: "Informatique", color: "blue"}, {id:7, name: "C++", color: "blue"}],
 
             docs: [
-                { id:0, image: "PNG", name: "Document de test", author: "GHR00" },
-                { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", author: "Random Alaoui" },
-                { id:2, image: "PDF", name: "Cours de resistance de materiaux", author: "Hamid Lambda" }
+                { id:0, image: "PNG", name: "Document de test", desc: "Description", author: "GHR00" },
+                { id:1, image: "PDF", name: "Examen analyse 2019 SIG/GI", desc: "Description", author: "Random Alaoui" },
+                { id:2, image: "PDF", name: "Cours de resistance de materiaux", desc: "Description", author: "Hamid Lambda" }
             ]
         }
     },
@@ -73,48 +79,26 @@ export default {
         receiveDocumentsFromServer(documents) {
             console.log("Recepetion:", JSON.stringify(documents));
             
-            /* var tmp = this.docs.concat(documents);
-
-            this.docs = tmp; */
-            //EventBus.$emit('receiveDocumentsFromServer', documents);
-
             this.setDocuments(documents);
         }
     },
 
     mounted(){
         this.update()
+
+        EventBus.$on('removeDocumentBox', () => {
+            console.log(`On supprime la box`);
+
+            this.importMode = false;
+        });
     },
 
     methods: {
 
-        uploadDocument(event) {
-            console.log(event.target.files[0]);
-
-            //this.file = event.target.files[0];
-            //this.file = this.$refs.file.files[0];
-
-            let formData = new FormData();
-
-            formData.append('file', event.target.files[0]);
-
-            axios.post( 'http://localhost:5000/single-file',
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-                ).then(function(){
-                console.log('SUCCESS!!');
-                })
-                .catch(function(){
-                console.log('FAILURE!!');
-            });
-        },
-
         importDocument() {
-            document.getElementById("fileUpload").click()
+            this.importMode = true;
+
+            EventBus.$emit('showImporter');
         },
 
         setDocuments(documents) {
@@ -126,20 +110,7 @@ export default {
         },
         
         update(){
-            //this.getDocumentsFromServer();
             this.$socket.client.emit('updateDocuments', "test");
-
-            /* var tmp;
-
-            EventBus.$on('receiveDocumentsFromServer', documents => {
-                console.log(`La liste des documents reçu est : ${JSON.stringify(documents)}`);
-                
-                tmp = docs.concat(documents);   
-
-                console.log(`La nouvelle liste des documents est : ${JSON.stringify(docs)}`);
-            }); 
-
-            docs = tmp; */
         },
 
     }
