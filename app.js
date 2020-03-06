@@ -44,29 +44,31 @@ var Busboy = require('busboy');
 
 var element = { id:-1, image: '', name: '', desc: '', author: '' };
 
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+// Connection URL
+const url = 'mongodb://localhost:27017';
+
+// Database Name
+const dbName = 'EHTPDocs';
+
+// Create a new MongoClient
+const client = new MongoClient(url);
+
+var db = null;
+
+// Use connect method to connect to the Server
+client.connect(function(err) {
+  assert.equal(null, err);
+  console.log("Connected successfully to server");
+
+  db = client.db(dbName);
+
+  /* client.close(); */
+});
+
 const FILES = "public/files/";
-
-/* app.post('/download-file', (req, res) => {
-
-  var busboy = new Busboy({ headers: req.headers });
-
-  busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-    console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-
-    if(fieldname.localeCompare("filename") == 0)
-    {
-      const filePath = FILES.concat(String(val));
-
-      console.log('filepath : ',  path.join(__dirname,  filePath) );
-
-      res.download(path.join(__dirname,  filePath), (err)=>{console.log(err)} );
-    }  
-  });
-  busboy.on('finish', function() {
-    console.log('Fin de la requete download-file!');
-  });
-  req.pipe(busboy);
-}); */
 
 // define a route to download a file 
 app.get('/download/:file(*)',(req, res) => {
@@ -114,9 +116,21 @@ app.post('/single-file', (req, res) => {
       res.end(); */
 
       if(element.id != -1)
-        docs.push(element);
+      {
+        // Get the documents collection
+        const collection = db.collection('Documents');
+        // Insert some documents
+        collection.insertOne(element, function(err, result) {
+          assert.equal(err, null);
+          assert.equal(1, result.result.n);
+          assert.equal(1, result.ops.length);
+          console.log("Inserted 1 documents into the collection");
+          //callback(result);
+        });
+      }
+        /* docs.push(element); */
       
-      console.log(docs);
+      //console.log(docs);
 
       element = { id:-1, image: "", name: "", desc: "", author: "" };
   });
@@ -130,21 +144,35 @@ app.use(history());
 
 server.listen(port, hostname, () => {
    console.log(`Server running at http://${hostname}:${port}/`);
- });
-
+});
 
 io.on('connection', function (socket) {
   socket.on('updateDocuments', function (msg, from) {
     console.log('I received a private message by ', from, ' saying ', msg);
 
-    // On charge les documents de la base de donnée !
-
         /* MongoDB */
+    if(client.isConnected)
+    {
+      // On charge les documents de la base de donnée !
+      db.collection("Documents").find({}).toArray(function(err, documents) {
+        assert.equal(err, null);
+        console.log("Found the following records");
+        console.log(documents);
+        //callback(documents);
 
-    // On les envoie au client
-    socket.emit('receiveDocumentsFromServer', docs);
+        //docs = documents;
 
-    console.log("I sended documents to client");
-    console.log(docs);
+        // On les envoie au client
+        socket.emit('receiveDocumentsFromServer', documents);
+
+        console.log("I sended documents to client");
+        console.log(documents);
+      });
+     
+    }
+
+    else 
+      console.log("Erreur de la connexion à la base de donnée (io.on('connection'))");
+    
   });
 });

@@ -19,9 +19,27 @@
                 </div>
             </div>
 
-            <div class="row">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button">Importer</button>
+            <div class="row d-flex justify-content-right">
+                <div class="col-4">
+                    <h2>Affichage</h2>
+                    <i class="fas fa-align-justify"></i>
+                    <i class="fab fa-buromobelexperte"></i>
+                </div>
+                <div class="col-8">
+                    <h2>Catégories</h2>
+                    <template v-for="category in categories">
+                        <category-component v-bind:key="category.id" v-bind:category-name="category.name"></category-component>
+                    </template>
+                    
+                </div>
             </div>
+
+            <div class="row d-flex justify-content-center">
+                <search-bar size='large' text='Rechercher'></search-bar>
+            </div>
+
+
+            
         </div>
             
         <div class="container border">
@@ -42,6 +60,7 @@
 import CategoryComponent from '@/components/Category.vue'
 import DocumentComponent from '@/components/Document.vue'
 import DocumentImporter from "@/components/importers/DocumentImporter.vue"
+import SearchBar from '@/components/Menu/SearchBar.vue'
 
 import API from '@/services/Api'
 import { EventBus } from '@/services/event-bus.js';
@@ -53,13 +72,14 @@ export default {
         CategoryComponent,
         DocumentComponent,
         DocumentImporter,
+        SearchBar
     },
 
     data() {
         return {
             importMode: false,
 
-            categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}, {id:5,name: "Annonces", color: "green"}, {id:6, name: "Informatique", color: "blue"}, {id:7, name: "C++", color: "blue"}],
+            categories: [{id : 1,name: "Examens",color: "green"}, {id:2,name: "Rapports de stage",color: "green"}, {id:3,name: "Présentations",color: "green"}, {id:4,name: "GC",color: "green"}],
 
             docs: [
                 { id:0, image: "PNG", name: "Document de test", desc: "Description", author: "GHR00" },
@@ -115,7 +135,4 @@ export default {
 
     }
 }
-
-
-
 </script>
